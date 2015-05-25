@@ -5,3 +5,6 @@ Werkzeug
 argparse
 wsgiref
 Flask-SQLAlchemy
+Flask-Login
+bcrypt
+Flask-Bcrypt

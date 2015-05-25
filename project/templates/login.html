@@ -1,0 +1,19 @@
+{% extends "base-template.html" %}
+{% block title %}Login{% endblock %}
+{% block ready_script %}
+activeMenu = 'menu_login';
+mobileTitle = 'Login';
+{% endblock %}
+
+{% block body_content %}
+        <form class="navbar-form navbar-right" role="form" method="POST" action="{{ url_for('login') }}">
+          <div class="form-group">
+            <input type="text" name="uname" placeholder="uname" class="form-control">
+            {{ form.uname.errors}}
+            <input type="password" name='password' placeholder="password" class="form-control">
+            {{ form.password.errors}}
+            {{ form.csrf_token }}
+          </div>
+          <button type="submit" class="btn btn-primary">Login</button>
+        </form> 
+{% endblock %}

@@ -6,8 +6,10 @@
   <link href="../static/css/menu.css" rel="stylesheet" type="text/css" />
   <script src="../static/js/jquery-1.11.3.min.js"></script>
   <script src="../static/js/bootstrap.min.js"></script>
+  <script src="../static/js/utility.js"></script>
   <link rel="icon" type="image/png" href="../static/ico/favicon.png" />
   <title>{% block title %}{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   {% block after_head %}{% endblock %}
   <script>
   $(document).ready(function () {
@@ -42,17 +44,23 @@
         $('#page-content, .navbar, body, .navbar-header').toggleClass('slide-active');
     });
 
-    var selected = '#slidemenu, #page-content, body, .navbar, .navbar-header';
-    $(window).on("resize", function () {
-        if ($(window).width() > 767 && $('.navbar-toggle').is(':hidden')) {
-            $(selected).removeClass('slide-active');
-        }
-    });
+    if (!isMobile()) {
+      var selected = '#slidemenu, #page-content, body, .navbar, .navbar-header';
+      $(window).on("resize", function () {
+          if ($(window).width() > 767 && $('.navbar-toggle').is(':hidden')) {
+              $(selected).removeClass('slide-active');
+          }
+      });
+    }
 
     var activeMenu = 'menu_home';
+    var mobileTitle = 'Home';
     {% block ready_script %}{% endblock %}
     $(".nav").find(".active").removeClass("active");
     $(".nav").find("." + activeMenu).addClass("active");
+    if (isMobile()) {
+      $("a.navbar-brand").text("Linh's Home - " + mobileTitle);
+    }
 });
   </script>
 </head>
@@ -70,6 +78,7 @@
         <a class="navbar-brand" href="/">Linh's Home</a>
       </div>
       <div id="slidemenu">
+
         <form class="navbar-form navbar-right" role="form">
           <div class="form-group">
             <input type="search" placeholder="search" class="form-control">
@@ -81,6 +90,12 @@
           <li class="active menu_home"><a href="/">Home</a></li>
           <li class="menu_control"><a href="/control">Control</a></li>
           <li class="menu_manager"><a href="/manager">Manager</a></li>
+          {% if session.user_id %}
+          <li class="menu_user"><a class="bnt" href="{{ url_for('profile') }}">{{ session.current_user.last_name }}</a></li>
+          <li class="menu_login"><a class="bnt" href="{{ url_for('logout') }}">Logout</a></li>
+          {% else %}
+          <li class="menu_login"><a class="bnt" href="{{ url_for('login') }}">Login</a></li>
+          {% endif %}
           <!--
           <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
             <ul class="dropdown-menu">
