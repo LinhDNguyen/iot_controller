@@ -1,6 +1,6 @@
-# flask-bootstrap #
+# IoT Controller #
 
-Flask-Bootstrap is a simple template I use when creating small webapps using the Flask Framework, Twitter Bootstrap and SQLAlchemy as the ORM. 
+IoT controller is a web app that allow you to manage, control your home's devices.
 
 ## Install ##
 
