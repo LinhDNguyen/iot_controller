@@ -3,7 +3,6 @@
 from project import views
 from project import models
 from project import config
-from project.database import init_db
 
 app = views.app
 
