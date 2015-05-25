@@ -15,23 +15,17 @@ app = Flask(__name__)
 @app.route("/")
 def index():
 
-    return render_template('starter-template.html')
+    return render_template('index.html')
 
-@app.route("/fluid")
-def fluid():
+@app.route("/control")
+def control():
 
-    return render_template('fluid.html')
+    return render_template('control.html')
 
-@app.route("/hero")
-def hero():
+@app.route("/manager")
+def manager():
 
-    return render_template('hero.html')
-
-@app.route("/layout")
-def layout():
-
-    return render_template('layout-template.html')
-
+    return render_template('manager.html')
 
 # Error Pages
 @app.errorhandler(500)
