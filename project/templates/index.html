@@ -17,4 +17,8 @@
       <p class="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
       <p class="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
       <p class="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
+
+      {% for user in users %}
+        <p>{{ user.id }} - {{ user.uname }} - {{ user.last_name }} {{ user.first_name }} - {{ user.email }}</p>
+    {% endfor %}
 {% endblock %}

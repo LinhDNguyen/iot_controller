@@ -8,14 +8,11 @@ from project import config
 from project.models import *
 from project.controllers import hello
 
-app = Flask(__name__)
-
-
 # All views below
 @app.route("/")
 def index():
-
-    return render_template('index.html')
+    users = User.query.all()
+    return render_template('index.html', users = users)
 
 @app.route("/control")
 def control():
@@ -35,7 +32,6 @@ def error_page(e):
 @app.errorhandler(404)
 def not_found(e):
     return render_template('error_pages/404.html'), 404
-
 
 # Lazy Views
 app.add_url_rule('/hello', view_func=hello.hello_world)
