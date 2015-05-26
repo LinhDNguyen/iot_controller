@@ -8,7 +8,7 @@
   <script src="../static/js/bootstrap.min.js"></script>
   <script src="../static/js/utility.js"></script>
   <link rel="icon" type="image/png" href="../static/ico/favicon.png" />
-  <title>{% block title %}{% endblock %}</title>
+  <title>IoT Home - {% block title %}{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {% block after_head %}{% endblock %}
   <script>
@@ -87,11 +87,11 @@
         </form>
 
         <ul class="nav navbar-nav">
-          <li class="active menu_home"><a href="/">Home</a></li>
-          <li class="menu_control"><a href="/control">Control</a></li>
-          <li class="menu_manager"><a href="/manager">Manager</a></li>
+          <li class="active menu_home"><a href="{{ url_for('index') }}">Home</a></li>
+          <li class="menu_control"><a href="{{ url_for('control') }}">Control</a></li>
+          <li class="menu_manager"><a href="{{ url_for('manager') }}">Manager</a></li>
           {% if session.user_id %}
-          <li class="menu_user"><a class="bnt" href="{{ url_for('profile') }}">{{ session.current_user.last_name }}</a></li>
+          <li class="menu_user"><a class="bnt" href="{{ url_for('profile') }}">{{ session.current_user.last_name }} {{ session.current_user.first_name }}</a></li>
           <li class="menu_login"><a class="bnt" href="{{ url_for('logout') }}">Logout</a></li>
           {% else %}
           <li class="menu_login"><a class="bnt" href="{{ url_for('login') }}">Login</a></li>

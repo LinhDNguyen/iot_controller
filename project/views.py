@@ -33,7 +33,7 @@ def index():
         session.current_user = None
     else:
         session.current_user = current_user
-    return render_template('index.html', 
+    return render_template('index.html',
                             session = session,
                             users = users,)
 
@@ -45,7 +45,7 @@ def control():
         session.current_user = None
     else:
         session.current_user = current_user
-    return render_template('control.html', 
+    return render_template('control.html',
                             session = session,)
 
 @app.route("/manager")
@@ -67,7 +67,7 @@ def profile():
         session.current_user = None
     else:
         session.current_user = current_user
-    return render_template('manager.html',
+    return render_template('profile.html',
                             session = session,)
 
 # Error Pages
