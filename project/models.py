@@ -61,3 +61,20 @@ class User(db.Model):
     def is_anonymous(self):
         """False, as anonymous users aren't supported."""
         return False
+
+class DeviceLed(db.Model):
+    __tablename__ = 'device_led'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80))
+    key = db.Column(db.String(80))
+    desc = db.Column(db.String(80))
+    status = db.Column(db.Integer)
+
+    def __init__(self, name, key, status=0, desc=''):
+        self.name = name
+        self.key = key
+        self.desc = desc
+        self.status = status
+
+    def __repr__(self):
+        return '<LED Device %s - %s - %d>' % (str(self.id), str(self.name), self.status)

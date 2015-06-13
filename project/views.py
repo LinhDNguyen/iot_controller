@@ -6,6 +6,7 @@ from flask import render_template
 from flask import session
 from flask import url_for
 from flask import redirect
+from flask import jsonify
 from flask.ext.login import login_required
 from flask.ext.login import login_user
 from flask.ext.login import logout_user
@@ -87,7 +88,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(uname=form.uname.data).first()
         if user:
-            if bcrypt.hashpw(str(form.password.data), user.password) == user.password:
+            if bcrypt.hashpw(str(form.password.data.encode('utf-8')), user.password.encode('utf-8')) == user.password:
                 user.authenticated = True
                 db.session.add(user)
                 db.session.commit()
@@ -113,9 +114,18 @@ def unauthorized():
     # do stuff
     return redirect(url_for("login"))
 
-@app.route("/test", methods=["GET"])
-def test():
-    return "Test from Flask"
+@app.route("/rest/get_status/<int:ledid>", methods=["GET"])
+def get_status(ledid):
+    res = {
+        'id': ledid,
+        'status': 'NOT FOUND',
+    }
+
+    led = DeviceLed.query.filter_by(id=ledid).first()
+    if led:
+        res['status'] = led.status
+
+    return jsonify(res)
 
 # Lazy Views
 app.add_url_rule('/hello', view_func=hello.hello_world)
