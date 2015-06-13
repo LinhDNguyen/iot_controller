@@ -113,6 +113,10 @@ def unauthorized():
     # do stuff
     return redirect(url_for("login"))
 
+@app.route("/test", methods=["GET"])
+def test():
+    return "Test from Flask"
+
 # Lazy Views
 app.add_url_rule('/hello', view_func=hello.hello_world)
 

@@ -9,3 +9,4 @@ Flask-Login
 bcrypt
 Flask-Bcrypt
 Flask-WTF
+Flask-RESTful
