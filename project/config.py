@@ -15,3 +15,6 @@ DBHOST = config.get('database', 'DBHOST')
 DBNAME = config.get('database', 'DBNAME')
 DBUSER = config.get('database', 'DBUSER')
 DBPASS = config.get('database', 'DBPASS')
+
+RESTUID = config.get('restapi', 'USERNAME')
+RESTPASS = config.get('restapi', 'PASSWORD')

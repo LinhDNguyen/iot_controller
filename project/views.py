@@ -15,7 +15,7 @@ from flask.ext.login import current_user
 from project import config
 from project.models import *
 from project.forms import *
-from project.controllers import hello
+from project.controllers import RESTfulAPI
 
 @login_manager.user_loader
 def user_loader(user_id):
@@ -114,21 +114,6 @@ def unauthorized():
     # do stuff
     return redirect(url_for("login"))
 
-@app.route("/rest/get_status/<int:ledid>", methods=["GET"])
-def get_status(ledid):
-    res = {
-        'id': ledid,
-        'status': 'NOT FOUND',
-    }
-
-    led = DeviceLed.query.filter_by(id=ledid).first()
-    if led:
-        res['status'] = led.status
-
-    return jsonify(res)
-
 # Lazy Views
-app.add_url_rule('/hello', view_func=hello.hello_world)
-
-
-
+app.add_url_rule('/rest/get_status/<int:ledid>', methods=['GET'], view_func=RESTfulAPI.get_status)
+app.add_url_rule('/hello', view_func=RESTfulAPI.hello_world)
