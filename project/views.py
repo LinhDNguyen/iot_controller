@@ -46,8 +46,30 @@ def control():
         session.current_user = None
     else:
         session.current_user = current_user
+    # Device list
+    devs = DeviceLed.query.all()
     return render_template('control.html',
-                            session = session,)
+                            session = session,
+                            devices = devs)
+
+@app.route("/control/set/<devid>/<int:value>", methods=["GET", "POST"])
+@login_required
+def set_value(devid, value):
+    dev = DeviceLed.query.filter_by(name=devid).first()
+    if dev:
+        dev.status = value
+        db.session.add(dev)
+        db.session.commit()
+        return str(dev.status)
+    return not_found(None)
+
+@app.route("/control/get/<devid>", methods=["GET"])
+@login_required
+def get_value(devid):
+    dev = DeviceLed.query.filter_by(name=devid).first()
+    if dev:
+        return str(dev.status)
+    return not_found(None)
 
 @app.route("/manager")
 @login_required

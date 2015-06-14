@@ -3,22 +3,57 @@
 {% block ready_script %}
 activeMenu = 'menu_control';
 mobileTitle = 'Control';
+
+{% endblock %}
+
+{% block after_head %}
+<script src="../static/js/bootstrap-switch.min.js"></script>
+<link href="../static/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block body_content %}
-      <h1 class="no-margin-top">Bootstrap control template</h1>
-      <p class="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
-      <p class="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
-      <p class="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
-      <p class="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
-      <p class="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
-      <p class="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
-      <p class="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
-      <p class="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
-      <p class="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
-      <p class="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
-      <p class="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
-      <p class="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
-      <p class="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
-      <p class="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
+  <h1 class="no-margin-top">Devices control</h1>
+  <div class="row led_control">
+    {% for dev in devices %}
+      <div class="col-sm-6" style="font-weight: bold;">
+        <input type="checkbox" name="{{ dev.name }}" {% if dev.status %}checked{% endif %}>
+        <span style="margin-left: 10px;" >{{ dev.desc }}</span>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block body_script %}
+$(".led_control [type='checkbox']").each(function() {
+  // alert("Checkbox " + $(this).attr('name') + " is " + $(this).attr('checked'));
+  if ($(this).attr('checked')) {
+    $(this).bootstrapSwitch('state', true, true);
+  } else {
+    $(this).bootstrapSwitch('state', false, false);
+  }
+});
+$('.led_control input[type="checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
+  var newStatus = 0;
+  var devName = '';
+
+  //alert("Changed to state: " + state); // true | false
+  if (state) {
+    newStatus = 1;
+  } else {
+    newStatus = 0;
+  }
+  ele = $(this).find('input');
+  devName = $(this).attr('name');
+  // alert("Update " + devName);
+  $.ajax({
+  method: "POST",
+  url: "/control/set/" + devName + "/" + newStatus,
+  data: { }
+  })
+  .done(function( msg ) {
+    if (msg.length < 1) {
+      alert("Error when saving status.");
+    }
+  });
+})
 {% endblock %}
