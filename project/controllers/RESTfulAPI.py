@@ -36,3 +36,13 @@ def get_status(ledid):
         res['status'] = led.status
 
     return jsonify(res)
+
+@auth.login_required
+def get_all_status():
+    res = []
+
+    leds = DeviceLed.query.all()
+    for led in leds:
+        res.append({'id': led.id, 'status': led.status})
+
+    return jsonify({'leds':res})

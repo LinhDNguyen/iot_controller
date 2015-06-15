@@ -71,6 +71,14 @@ def get_value(devid):
         return str(dev.status)
     return not_found(None)
 
+@app.route("/control/getallled", methods=["GET"])
+@login_required
+def get_all_value():
+    res = ''
+    devs = DeviceLed.query.all()
+    res = ','.join([("%s:%d" % (dev.name, dev.status)) for dev in devs])
+    return res
+
 @app.route("/manager")
 @login_required
 def manager():
@@ -138,4 +146,5 @@ def unauthorized():
 
 # Lazy Views
 app.add_url_rule('/rest/get_status/<int:ledid>', methods=['GET'], view_func=RESTfulAPI.get_status)
+app.add_url_rule('/rest/get_all_status', methods=['GET'], view_func=RESTfulAPI.get_all_status)
 app.add_url_rule('/hello', view_func=RESTfulAPI.hello_world)
